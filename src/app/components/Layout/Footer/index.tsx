@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="mt-auto border-t border-white/15 bg-[#004a80] px-4 py-6 text-center text-sm text-white shadow-[0_-2px_0_rgba(255,255,255,0.25)] dark:border-border/60 dark:bg-card/80 dark:text-muted-foreground">
+    <footer className="mt-auto border-t border-slate-200/80 bg-[#004a80] px-4 py-6 text-center text-sm text-white shadow-[0_-1px_0_rgba(148,163,184,0.35)] dark:border-zinc-700/80 dark:bg-card/80 dark:text-muted-foreground dark:shadow-[0_-2px_0_rgba(255,255,255,0.08)]">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 text-center">
         <Link
           href="/"
