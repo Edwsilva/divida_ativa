@@ -1,6 +1,6 @@
-import Container from "./components/Layout/Container";
-import { getServerSession } from "./api/lib";
-import { decodeJwt } from "@/utils/api";
+import Container from "@/components/layout/container";
+import { getServerSession } from "@/lib/auth";
+import { decodeJwt } from "@/lib/api";
 import {
   Card,
   CardContent,

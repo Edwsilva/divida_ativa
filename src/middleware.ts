@@ -12,7 +12,7 @@ import {
   COOKIE_MAX_AGE,
   POST_LOGIN_REDIRECT_COOKIE,
   POST_LOGIN_REDIRECT_MAX_AGE,
-} from "./app/api/lib";
+} from "@/lib/auth";
 
 function redirectToLoginPreservingTarget(request: NextRequest) {
   const { pathname, search } = request.nextUrl;

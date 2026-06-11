@@ -8,8 +8,8 @@ import {
   REFRESH_COOKIE,
   COOKIE_MAX_AGE,
   POST_LOGIN_REDIRECT_COOKIE,
-} from "@/app/api/lib";
-import { getEnv } from "@/env";
+} from "@/lib/auth";
+import { getEnv } from "@/lib/env";
 import { KeycloakTokenResponse } from "@/types";
 
 function resolvePostLoginUrl(

@@ -1,4 +1,3 @@
-// src/env.ts
 import { z } from "zod";
 
 const serverSchema = z.object({
@@ -14,7 +13,6 @@ const serverSchema = z.object({
 
 let _serverEnv: z.infer<typeof serverSchema> | undefined;
 
-/** Stub usado apenas durante o build no CI, quando as variáveis de servidor não estão definidas. */
 function getBuildStubEnv(): z.infer<typeof serverSchema> {
   return {
     KEYCLOAK_URL: "",
@@ -34,9 +32,7 @@ function isBuildTime(): boolean {
 
 export function getEnv() {
   if (typeof window !== "undefined") {
-    throw new Error(
-      "getEnv() só pode ser chamado no servidor.",
-    );
+    throw new Error("getEnv() só pode ser chamado no servidor.");
   }
 
   if (_serverEnv !== undefined) {

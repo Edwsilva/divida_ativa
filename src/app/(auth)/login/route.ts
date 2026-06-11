@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getEnv } from "@/env";
+import { getEnv } from "@/lib/env";
 
 export async function GET() {
   const keycloakBase = getEnv().KEYCLOAK_URL;

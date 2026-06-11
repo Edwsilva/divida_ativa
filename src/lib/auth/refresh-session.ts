@@ -1,6 +1,8 @@
 import { SessionPayload } from "@/types";
+
+import { getEnv } from "@/lib/env";
+
 import { logServerError } from "./log-server-error";
-import { getEnv } from "@/env";
 
 export async function refreshSession(session: SessionPayload) {
   if (Date.now() <= session.exp) {

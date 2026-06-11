@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getEnv } from "@/env";
-import { ACCESS_COOKIE, REFRESH_COOKIE } from "../../api/lib/index";
+import { ACCESS_COOKIE, REFRESH_COOKIE } from "@/lib/auth";
+import { getEnv } from "@/lib/env";
 
 function getPostLogoutRedirectUri(request: NextRequest) {
   const { KEYCLOAK_POST_LOGOUT_REDIRECT_URI } = getEnv();

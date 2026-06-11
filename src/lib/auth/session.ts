@@ -1,5 +1,6 @@
 import Iron from "@hapi/iron";
-import { getEnv } from "@/env";
+
+import { getEnv } from "@/lib/env";
 import { SessionPayload } from "@/types";
 
 const SESSION_SECRET = getEnv().SESSION_SECRET;
@@ -50,11 +51,10 @@ export async function unsealRefreshSession(
 
 export const ACCESS_COOKIE = "web_template_session";
 export const REFRESH_COOKIE = "web_template_refresh_session";
-export const COOKIE_MAX_AGE = 60 * 60 * 8; // 8h
+export const COOKIE_MAX_AGE = 60 * 60 * 8;
 
-export const POST_LOGIN_REDIRECT_COOKIE =
-  "web_template_post_login_redirect";
-export const POST_LOGIN_REDIRECT_MAX_AGE = 60 * 10; // 10 minutos: tempo máximo do round-trip de login
+export const POST_LOGIN_REDIRECT_COOKIE = "web_template_post_login_redirect";
+export const POST_LOGIN_REDIRECT_MAX_AGE = 60 * 10;
 
 export function isSafeInternalPath(
   value: string | undefined | null,

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Container from "@/app/components/Layout/Container";
+import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 
 export default function NotFound() {

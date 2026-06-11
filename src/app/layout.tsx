@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Manrope, Space_Grotesk, Geist } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Layout/Header";
-import Footer from "./components/Layout/Footer";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const bodyFont = Manrope({
   subsets: ["latin"],
@@ -29,7 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
+    <html
+      lang="pt-BR"
+      suppressHydrationWarning
+      className={cn("font-sans", geist.variable)}
+    >
       <body
         className={`${bodyFont.variable} ${headingFont.variable} bg-background text-foreground antialiased`}
       >

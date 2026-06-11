@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getServerSession, logServerError } from "@/app/api/lib";
-import { decodeJwt } from "@/utils";
+import { getServerSession, logServerError } from "@/lib/auth";
+import { decodeJwt } from "@/lib/api";
 
 export async function GET() {
   const session = await getServerSession();

@@ -1,16 +1,18 @@
 import { cookies } from "next/headers";
+
 import { SessionPayload } from "@/types";
+
 import {
   ACCESS_COOKIE,
-  REFRESH_COOKIE,
   COOKIE_MAX_AGE,
-  logServerError,
-  unsealAccessSession,
+  REFRESH_COOKIE,
   sealAccessSession,
   sealRefreshSession,
-  refreshSession,
-} from "./index";
-import { unsealRefreshSession } from "./session";
+  unsealAccessSession,
+  unsealRefreshSession,
+} from "./session";
+import { logServerError } from "./log-server-error";
+import { refreshSession } from "./refresh-session";
 
 export async function getServerSession() {
   const cookieStore = cookies();
