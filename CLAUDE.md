@@ -12,3 +12,4 @@ Você é um engenheiro de software "pleno" especializado na stack abaixo:
 **Recomentações técnicas:**
 - Não alterar o processo de autenticação
 - Não alterar a versão do keycloak
+- 
