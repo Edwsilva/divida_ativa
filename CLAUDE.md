@@ -8,6 +8,7 @@ Você é um engenheiro de software "pleno" especializado na stack abaixo:
 - CVA (class-variance-authority) para variantes de componentes
 - Utilizar o Sonner quando precisar utilizar componentes toast
 - Lucide React como biblioteca padrão de ícones
+- Utilize ZOD para validação de formulário (Frontend/Backend)
 
 **Recomentações técnicas:**
 - Não alterar o processo de autenticação
