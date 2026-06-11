@@ -1,0 +1,138 @@
+variables:
+  IMAGEM_CLI_OPENSHIFT: "registry.apps.rio.gov.br/java/arquitetura/imagens/openshift-cli:cli-ocp-4.10"
+  IMAGEM_DOCKER: "registry.apps.rio.gov.br/java/arquitetura/imagens/docker:latest"
+  IMAGEM_DOCKER_DIND: "registry.apps.rio.gov.br/java/arquitetura/imagens/docker-dind:dind"
+  GET_VERSION_SCRIPT: |
+    head -n 3 package.json | tail -1 | sed 's/"version"://g' | sed 's/",//g' | sed 's/"//g' | sed 's/^[[:space:]]*//'
+  TRANSFER_METER_FREQUENCY: "2s"
+  ARTIFACT_COMPRESSION_LEVEL: "fast"
+  CACHE_COMPRESSION_LEVEL: "fastest"
+  CACHE_REQUEST_TIMEOUT: 5
+
+stages:
+  - package
+  - deploy-beta
+  - deploy-staging-prepare
+  - deploy-staging
+  - deploy-production-prepare
+  - deploy-production
+
+.deploy_template: &deploy_template
+  image: $IMAGEM_CLI_OPENSHIFT
+  before_script:
+    - oc login "$OPENSHIFT_SERVER" --token="$OCP_TOKEN" --insecure-skip-tls-verify
+    - oc project $OPENSHIFT_PROJECT
+  script: |
+    # Definimos o nome da tag no ImageStream com o commit para rastreabilidade
+    # Exemplo: web:0.1.0-743cb7d3-stable
+    ISTAG_FULL_NAME="${CI_PROJECT_NAME}:${IMAGE_TAG}"
+    
+    echo "Efetuando deploy da versão: ${ISTAG_FULL_NAME}"
+    
+    SUCCESS=false
+    for i in {1..5}; do
+      echo "Tentativa de importação numero $i/5..."
+      oc tag ${CI_REGISTRY_IMAGE}:${IMAGE_TAG} ${ISTAG_FULL_NAME} --reference-policy=local            
+      if oc import-image ${ISTAG_FULL_NAME} --confirm --insecure=true; then
+        SUCCESS=true
+        break
+      fi
+      echo "Erro de comunicação ou Rate Limit. Aguardando 30 segundos..."
+      sleep 30
+    done
+
+    if [ "$SUCCESS" = false ]; then
+      echo "ERRO: Falha na sincronização da imagem ${ISTAG_FULL_NAME}."
+      exit 1
+    fi
+
+    echo "Atualizando DeploymentConfig para a nova tag do commit..."    
+    oc set image dc/${CI_PROJECT_NAME} ${CI_PROJECT_NAME}=${ISTAG_FULL_NAME} --source=istag
+    
+    oc set triggers dc/${CI_PROJECT_NAME} --remove-all
+    oc set triggers dc/${CI_PROJECT_NAME} --from-image=${ISTAG_FULL_NAME} -c ${CI_PROJECT_NAME} --auto=true
+
+    echo "Acompanhando rollout..."
+    sleep 5
+    if ! oc rollout status dc/${CI_PROJECT_NAME} --timeout=10s > /dev/null 2>&1; then
+        echo "Disparando rollout manual..."
+        oc rollout latest dc/${CI_PROJECT_NAME} || echo "Rollout já em curso..."
+    fi
+    oc rollout status dc/${CI_PROJECT_NAME} --timeout=5m
+    oc scale --replicas=1 dc/${CI_PROJECT_NAME}
+
+.tag_and_push_dind: &tag_and_push_dind
+  image: $IMAGEM_DOCKER_DIND
+  before_script:
+    - apk update && apk add --no-cache libxml2-utils bash git
+  script: |
+    echo "Tagging image: $SOURCE_IMAGE_TAG -> $IMAGE_TAG"
+    echo "$CI_REGISTRY_PASSWORD" | docker login --username $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    docker pull $CI_REGISTRY_IMAGE:$SOURCE_IMAGE_TAG
+    docker tag $CI_REGISTRY_IMAGE:$SOURCE_IMAGE_TAG $CI_REGISTRY_IMAGE:$IMAGE_TAG
+    docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
+
+package:
+  stage: package
+  image: $IMAGEM_DOCKER_DIND
+  script: |
+    apk update && apk add --no-cache bash
+    export RELEASE_VERSION="$(eval $GET_VERSION_SCRIPT)"
+    echo "RELEASE_VERSION=$RELEASE_VERSION" > release.env
+    # Gera a tag unstable com commit para o dev
+    export IMAGE_FULL_TAG="$RELEASE_VERSION-$CI_COMMIT_SHORT_SHA-unstable"
+    echo "$CI_REGISTRY_PASSWORD" | docker login --username $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    docker build -t $CI_REGISTRY_IMAGE:$IMAGE_FULL_TAG .
+    docker push $CI_REGISTRY_IMAGE:$IMAGE_FULL_TAG
+  artifacts:
+    reports:
+      dotenv: release.env
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "master"
+
+deploy-beta:
+  stage: deploy-beta
+  extends: .deploy_template
+  variables:
+    OCP_TOKEN: "$OPENSHIFT_PIPELINE_TOKEN_DEV"
+    OPENSHIFT_PROJECT: "$OPENSHIFT_PROJECT_DEV"
+    IMAGE_TAG: $RELEASE_VERSION-$CI_COMMIT_SHORT_SHA-unstable
+  needs:
+    - job: package
+      artifacts: true
+
+deploy-staging-prepare:
+  stage: deploy-staging-prepare
+  extends: .tag_and_push_dind
+  variables:
+    IMAGE_TAG: $RELEASE_VERSION-$CI_COMMIT_SHORT_SHA-stable
+    SOURCE_IMAGE_TAG: $RELEASE_VERSION-$CI_COMMIT_SHORT_SHA-unstable
+  needs: ["deploy-beta", "package"]
+  when: manual
+
+deploy-staging:
+  stage: deploy-staging
+  extends: .deploy_template
+  variables:
+    OCP_TOKEN: "$OPENSHIFT_PIPELINE_TOKEN_HOM"
+    OPENSHIFT_PROJECT: "$OPENSHIFT_PROJECT_HOM"
+    IMAGE_TAG: $RELEASE_VERSION-$CI_COMMIT_SHORT_SHA-stable
+  needs: ["deploy-staging-prepare", "package"]
+
+deploy-production-prepare:
+  stage: deploy-production-prepare
+  extends: .tag_and_push_dind
+  variables:
+    IMAGE_TAG: $RELEASE_VERSION-$CI_COMMIT_SHORT_SHA-final
+    SOURCE_IMAGE_TAG: $RELEASE_VERSION-$CI_COMMIT_SHORT_SHA-stable
+  needs: ["deploy-staging", "package"]
+  when: manual
+
+deploy-production:
+  stage: deploy-production
+  extends: .deploy_template
+  variables:
+    OCP_TOKEN: "$OPENSHIFT_PIPELINE_TOKEN_PROD"
+    OPENSHIFT_PROJECT: "$OPENSHIFT_PROJECT_PROD"
+    IMAGE_TAG: $RELEASE_VERSION-$CI_COMMIT_SHORT_SHA-final
+  needs: ["deploy-production-prepare", "package"]
