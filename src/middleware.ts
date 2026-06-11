@@ -16,7 +16,7 @@ import {
 
 function redirectToLoginPreservingTarget(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  const loginUrl = new URL("/api/auth/login", request.url);
+  const loginUrl = new URL("/login", request.url);
   const response = NextResponse.redirect(loginUrl);
 
   response.cookies.set(POST_LOGIN_REDIRECT_COOKIE, pathname + search, {
@@ -35,8 +35,8 @@ export default async function middleware(request: NextRequest) {
 
   // Se o Keycloak redirecionou para / (ou outra rota) com o code na query,
   // encaminhar para o callback para trocar o code pelo token e evitar loop.
-  if (searchParams.has("code") && pathname !== "/api/auth/callback") {
-    const callbackUrl = new URL("/api/auth/callback", request.url);
+  if (searchParams.has("code") && pathname !== "/callback") {
+    const callbackUrl = new URL("/callback", request.url);
     searchParams.forEach((value, key) =>
       callbackUrl.searchParams.set(key, value),
     );

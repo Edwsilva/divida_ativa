@@ -26,7 +26,7 @@ function logoutGovBr(): Promise<void> {
       iframe.onerror = cleanup;
       const fallback = setTimeout(cleanup, 5000);
 
-      iframe.src = "/api/auth/logout-govbr-url";
+      iframe.src = "/logout-govbr-url";
       document.body.appendChild(iframe);
     } catch (error) {
       console.error("[logoutGovBr] Falha no logout federado", error);
@@ -43,7 +43,7 @@ export default function LogoutButton({ givenName }: LogoutButtonProps) {
     setIsLoggingOut(true);
     try {
       await logoutGovBr();
-      window.location.href = "/api/auth/logout";
+      window.location.href = "/logout";
     } catch (error) {
       console.error("[handleLogout] Erro no fluxo de logout", error);
       setIsLoggingOut(false);
