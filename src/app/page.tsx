@@ -46,12 +46,12 @@ export default async function Home() {
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="min-w-full border-separate border-spacing-0">
-                <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur dark:bg-card/95">
+                <thead className="sticky top-0 z-10 bg-white/90 backdrop-blur dark:bg-card/95">
                   <tr>
-                    <th className="border-b border-slate-200/60 px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:px-8 dark:border-white/10">
+                    <th className="border-b border-slate-200/40 px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:px-8 dark:border-white/10">
                       Campo
                     </th>
-                    <th className="border-b border-slate-200/60 px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:px-8 dark:border-white/10">
+                    <th className="border-b border-slate-200/40 px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:px-8 dark:border-white/10">
                       Valor
                     </th>
                   </tr>
@@ -62,14 +62,14 @@ export default async function Home() {
                       key={key}
                       className={
                         index % 2 === 0
-                          ? "bg-slate-50/60 dark:bg-white/[0.03]"
+                          ? "bg-slate-50/40 dark:bg-white/[0.03]"
                           : "bg-transparent"
                       }
                     >
-                      <td className="w-[280px] border-b border-slate-200/60 px-6 py-5 align-top text-sm font-semibold text-primary sm:px-8 dark:border-white/10 dark:text-cyan-300">
+                      <td className="w-[280px] border-b border-slate-200/40 px-6 py-5 align-top text-sm font-semibold text-primary sm:px-8 dark:border-white/10 dark:text-cyan-300">
                         {formatLabel(key)}
                       </td>
-                      <td className="border-b border-slate-200/60 px-6 py-5 align-top text-sm text-foreground sm:px-8 dark:border-white/10 dark:text-slate-100">
+                      <td className="border-b border-slate-200/40 px-6 py-5 align-top text-sm text-foreground sm:px-8 dark:border-white/10 dark:text-slate-100">
                         <pre className="max-w-full whitespace-pre-wrap break-words font-mono text-[0.92rem] leading-6 text-foreground/90 dark:text-slate-100/90">
                           {formatValue(value)}
                         </pre>

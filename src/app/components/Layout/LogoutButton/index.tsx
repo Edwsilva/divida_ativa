@@ -53,7 +53,7 @@ export default function LogoutButton({ givenName }: LogoutButtonProps) {
   return (
     <Button
       type="button"
-      variant="outline"
+      variant="default"
       className="min-w-[210px] rounded-full border-slate-300 bg-white px-4 py-2 text-slate-700 shadow-[0_1px_2px_rgba(15,23,42,0.06)] transition hover:bg-slate-50 hover:text-slate-900 dark:border-white/15 dark:bg-white/5 dark:text-white dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)] dark:hover:bg-white/10"
       onClick={handleLogout}
       disabled={isLoggingOut}
@@ -67,7 +67,7 @@ export default function LogoutButton({ givenName }: LogoutButtonProps) {
               : "Sair"}
         </span>
         {!isLoggingOut && (
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 text-emerald-600 shadow-sm dark:border-white/20 dark:bg-white/5 dark:text-white">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-cyan-900 bg-white  text-cyan-900 shadow-sm dark:border-white/20 dark:bg-white/5 dark:text-white">
             <LogOut className="h-4 w-4" />
           </span>
         )}
