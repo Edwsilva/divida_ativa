@@ -63,7 +63,12 @@ export function SidebarImoveis() {
                 )}
               />
             </div>
-            <Button type="submit" size="sm" className="w-full">
+            <Button
+              type="submit"
+              size="sm"
+              className="mt-3 w-full rounded px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
+              style={{ backgroundColor: "#189abf" }}
+            >
               Salvar
             </Button>
           </form>
@@ -80,7 +85,8 @@ export function SidebarImoveis() {
         />
         <div className="px-3 py-3">
           <p className="text-sm leading-snug text-foreground/80">
-            Você não está cadastrado no Nota Carioca. Clique aqui para se cadastrar.
+            Você não está cadastrado no Nota Carioca. Clique aqui para se
+            cadastrar.
           </p>
           <button
             type="button"
