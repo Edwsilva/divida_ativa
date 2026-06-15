@@ -39,6 +39,11 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+
+     --bg-items: #f1f5f9;
+  --border-items: #e2e8f0;
+  --color-items: #64748b;
+  --primary: #0f172a;
   }
 
   .dark {
@@ -74,6 +79,12 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
+
+    
+     --bg-items: #1e293b;
+  --border-items: #334155;
+  --color-items: #94a3b8;
+  --primary: #38bdf8;
   }
 
   * {
