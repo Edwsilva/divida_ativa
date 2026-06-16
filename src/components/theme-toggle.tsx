@@ -4,7 +4,7 @@ import { MoonStar, SunMedium } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 
-const ANIMATION_DURATION = 500;
+const ANIMATION_DURATION = 100;
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
