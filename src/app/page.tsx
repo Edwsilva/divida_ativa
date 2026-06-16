@@ -26,57 +26,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Como funciona */}
-      <section>
-        <div className="mb-5">
+      {/* Como funciona + Serviços */}
+      <section className="space-y-5">
+        <div>
           <h2 className="text-lg font-semibold text-foreground sm:text-xl">Como funciona</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Em poucos passos você consulta e regulariza seus débitos.
           </p>
         </div>
-        <StepCarousel />
-      </section>
 
-      {/* Layout funcional */}
-      <section className="pb-4">
-        <div className="flex flex-col gap-6 lg:flex-row">
-          {/* Sidebar esquerda */}
-          <div className="w-full shrink-0 lg:w-72">
-            <SidebarImoveis />
+        <StepCarousel />
+
+        {/* Serviços abaixo dos slides */}
+        <div className="space-y-3 rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
+          <div>
+            <h3 className="text-base font-semibold text-foreground">Serviços disponíveis</h3>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Selecione o serviço desejado e clique em <strong className="text-foreground">Confirmar</strong>.
+            </p>
           </div>
 
-          {/* Conteúdo central + card direito */}
-          <div className="flex flex-1 flex-col gap-6 xl:flex-row">
-            {/* Form de serviços */}
-            <div className="flex-1 space-y-5 rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
-              <div>
-                <h2 className="text-base font-semibold text-foreground">Serviços disponíveis</h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Selecione o serviço desejado e clique em <strong className="text-foreground">Confirmar</strong>.
-                </p>
-              </div>
+          <DividaAtivaForm />
 
-              <DividaAtivaForm />
+          <p className="border-t border-border/50 pt-4 text-sm text-muted-foreground">
+            Clique{" "}
+            <Link
+              href="https://daminternet.rio.rj.gov.br/FAQ/DividaAtiva"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 font-semibold text-sky-600 underline underline-offset-2 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300"
+            >
+              aqui
+              <ExternalLink className="h-3 w-3" />
+            </Link>{" "}
+            para acessar perguntas frequentes relacionadas à dívida ativa.
+          </p>
+        </div>
+      </section>
 
-              <p className="border-t border-border/50 pt-4 text-sm text-muted-foreground">
-                Clique{" "}
-                <Link
-                  href="https://daminternet.rio.rj.gov.br/FAQ/DividaAtiva"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-semibold text-sky-600 underline underline-offset-2 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300"
-                >
-                  aqui
-                  <ExternalLink className="h-3 w-3" />
-                </Link>{" "}
-                para acessar perguntas frequentes relacionadas à dívida ativa.
-              </p>
-            </div>
-
-            {/* Card de informações DAM */}
-            <div className="w-full shrink-0 xl:w-64">
-              <DamInfoCard />
-            </div>
+      {/* Sidebar + DamInfoCard */}
+      <section className="pb-4">
+        <div className="flex flex-col gap-6 sm:flex-row">
+          <div className="w-full sm:w-72">
+            <SidebarImoveis />
+          </div>
+          <div className="flex-1">
+            <DamInfoCard />
           </div>
         </div>
       </section>
