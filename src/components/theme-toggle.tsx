@@ -4,25 +4,25 @@ import { MoonStar, SunMedium } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 
-const ANIMATION_DURATION = 500;
-
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
 
   const [mounted, setMounted] = useState(false);
 
-  // Estado que controla APENAS a posição do thumb
+  // Controla apenas a posição do thumb
   const [thumbDark, setThumbDark] = useState(false);
 
-  const isAnimating = useRef(false);
+  // Tema que será aplicado quando a animação terminar
+  const nextTheme = useRef<"light" | "dark" | null>(null);
+
+  const animating = useRef(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Sincroniza o thumb quando o tema mudar externamente
   useEffect(() => {
-    if (!mounted || isAnimating.current) return;
+    if (!mounted || animating.current) return;
 
     setThumbDark(resolvedTheme === "dark");
   }, [resolvedTheme, mounted]);
@@ -34,29 +34,34 @@ export function ThemeToggle() {
   }
 
   function handleToggle() {
-    if (isAnimating.current) return;
+    const nextTheme = thumbDark ? "light" : "dark";
 
-    isAnimating.current = true;
+    // Anima o botão
+    setThumbDark(!thumbDark);
 
-    const nextDark = !thumbDark;
-
-    // Anima o thumb imediatamente
-    setThumbDark(nextDark);
-
-    // Só troca o tema quando a animação terminar
-    window.setTimeout(() => {
-      const nextTheme = nextDark ? "dark" : "light";
-
-      if (!document.startViewTransition) {
+    // Anima a página inteira
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
         setTheme(nextTheme);
-      } else {
-        document.startViewTransition(() => {
-          setTheme(nextTheme);
-        });
-      }
+      });
+    } else {
+      setTheme(nextTheme);
+    }
+  }
 
-      isAnimating.current = false;
-    }, ANIMATION_DURATION);
+  function handleTransitionEnd() {
+    if (!animating.current || !nextTheme.current) return;
+
+    if (!document.startViewTransition) {
+      setTheme(nextTheme.current);
+    } else {
+      document.startViewTransition(() => {
+        setTheme(nextTheme.current!);
+      });
+    }
+
+    animating.current = false;
+    nextTheme.current = null;
   }
 
   return (
@@ -64,14 +69,27 @@ export function ThemeToggle() {
       onClick={handleToggle}
       aria-label={thumbDark ? "Ativar tema claro" : "Ativar tema escuro"}
       aria-pressed={thumbDark}
-      className="relative flex h-8 w-14 items-center rounded-full border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800"
+      className="
+        relative
+        flex
+        h-8
+        w-14
+        items-center
+        overflow-hidden
+        rounded-full
+        border
+        border-slate-200
+        bg-white
+        dark:border-slate-700
+        dark:bg-slate-800
+      "
     >
       {/* Ícones */}
-      <span className="pointer-events-none absolute inset-0 flex items-center justify-between px-[6px]">
+      <span className="absolute inset-0 flex items-center justify-between px-[6px]">
         <SunMedium className="h-3.5 w-3.5 text-white" />
 
         <MoonStar
-          className="h-3.5 w-3.5 transition-all duration-300"
+          className="h-3.5 w-3.5"
           style={{
             color: thumbDark ? "#fff" : "#0f172a",
             fill: thumbDark ? "transparent" : "#0f172a",
@@ -81,10 +99,20 @@ export function ThemeToggle() {
 
       {/* Thumb */}
       <span
-        aria-hidden="true"
-        className="absolute top-1 h-6 w-6 rounded-full bg-sky-500 shadow-[0_2px_8px_rgba(14,165,233,0.5)] transition-[left] duration-500"
+        className="
+          absolute
+          left-1
+          top-1
+          h-6
+          w-6
+          rounded-full
+          bg-sky-500
+          will-change-transform
+          transition-transform
+          duration-500
+        "
         style={{
-          left: thumbDark ? "calc(100% - 28px)" : "4px",
+          transform: thumbDark ? "translateX(24px)" : "translateX(0)",
           transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
       />

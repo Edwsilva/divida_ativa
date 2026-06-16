@@ -96,8 +96,29 @@
     background: hsl(var(--primary) / 0.18);
     color: hsl(var(--foreground));
   }
+
   .theme {
     --font-heading: var(--font-sans);
     --font-sans: var(--font-sans);
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 700ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::view-transition-new(root) {
+    animation: reveal 700ms;
+  }
+
+  @keyframes reveal {
+    from {
+      clip-path: circle(0% at 95% 50%);
+    }
+
+    to {
+      clip-path: circle(150% at 95% 50%);
+    }
   }
 }
