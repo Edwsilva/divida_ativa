@@ -53,8 +53,10 @@ export function SidebarImoveis() {
               <input
                 id="inscricao-imobiliaria"
                 type="text"
+                inputMode="numeric"
+                maxLength={8}
                 value={inscricao}
-                onChange={(e) => setInscricao(e.target.value)}
+                onChange={(e) => setInscricao(e.target.value.replace(/\D/g, "").slice(0, 8))}
                 placeholder="Inscrição imobiliária"
                 aria-label="Inscrição imobiliária do imóvel"
                 className={cn(
