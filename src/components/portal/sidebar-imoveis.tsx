@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
-import { Building2 } from "lucide-react";
+import { Building2, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,41 +24,38 @@ export function SidebarImoveis() {
 
   return (
     <aside className="space-y-4">
+      {/* Card Meus Imóveis */}
       <Card className="border-border/70 shadow-sm">
         <CardHeader className="border-b border-border/50 pb-3">
           <CardTitle className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-foreground">
-            <Building2 className="h-4 w-4 shrink-0 text-primary" />
+            <Building2 className="h-4 w-4 shrink-0 text-sky-500" />
             Meus Imóveis
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4 pt-4 text-sm text-muted-foreground">
-          <p>
-            Cadastre o seu imóvel para consultar 2ª via do seu IPTU, as cotas em
-            atraso e pagamentos efetuados.
+        <CardContent className="space-y-4 pt-4">
+          <p className="text-sm text-muted-foreground">
+            Cadastre seu imóvel para consultar 2ª via do IPTU, cotas em atraso e pagamentos efetuados.
           </p>
-          <p className="text-xs">
-            Você não tem nenhum imóvel cadastrado. Favor informar os dados do
-            imóvel para visualizar a cota do IPTU.
+          <p className="rounded-lg bg-muted/60 px-3 py-2 text-xs text-muted-foreground">
+            Nenhum imóvel cadastrado. Informe a inscrição imobiliária abaixo para começar.
           </p>
 
           <form onSubmit={handleSalvar} className="space-y-3">
             <div className="space-y-1.5">
-              <label
-                htmlFor="inscricao-imobiliaria"
-                className="text-xs font-semibold text-foreground"
-              >
-                Incluir novo Imóvel:
+              <label htmlFor="inscricao-imobiliaria" className="text-xs font-semibold text-foreground">
+                Incluir novo imóvel
               </label>
               <input
                 id="inscricao-imobiliaria"
                 type="text"
                 value={inscricao}
                 onChange={(e) => setInscricao(e.target.value)}
-                placeholder="Inscrição Imobiliária"
+                placeholder="Inscrição imobiliária"
+                aria-label="Inscrição imobiliária do imóvel"
                 className={cn(
                   "w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground",
                   "placeholder:text-muted-foreground",
-                  "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1",
+                  "focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:ring-offset-1",
                   "transition-colors",
                 )}
               />
@@ -66,38 +63,40 @@ export function SidebarImoveis() {
             <Button
               type="submit"
               size="sm"
-              className="mt-3 w-full rounded px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
-              style={{ backgroundColor: "#189abf" }}
+              className="w-full bg-sky-500 hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-700"
             >
-              Salvar
+              <Plus className="mr-1.5 h-3.5 w-3.5" />
+              Salvar imóvel
             </Button>
           </form>
         </CardContent>
       </Card>
 
-      <div className="rounded border border-border/60 bg-card p-0 text-center shadow-sm">
-        <Image
-          src="/nota-carioca.jpg"
-          alt="Nota Carioca"
-          width={260}
-          height={200}
-          className="h-auto w-full rounded-t object-contain"
-        />
-        <div className="px-3 py-3">
+      {/* Card Nota Carioca */}
+      <Card className="overflow-hidden border-border/70 shadow-sm">
+        <div className="bg-muted/30">
+          <Image
+            src="/nota-carioca.jpg"
+            alt="Nota Carioca"
+            width={260}
+            height={200}
+            className="h-auto w-full object-contain"
+          />
+        </div>
+        <CardContent className="space-y-3 pt-4">
           <p className="text-sm leading-snug text-foreground/80">
-            Você não está cadastrado no Nota Carioca. Clique aqui para se
-            cadastrar.
+            Você não está cadastrado no Nota Carioca. Clique abaixo para se cadastrar.
           </p>
-          <button
+          <Button
             type="button"
+            size="sm"
+            className="w-full bg-sky-500 hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-700"
             onClick={() => toast.info("Redirecionando para o Nota Carioca...")}
-            className="mt-3 w-full rounded px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
-            style={{ backgroundColor: "#189abf" }}
           >
             Ver notas recebidas no mês
-          </button>
-        </div>
-      </div>
+          </Button>
+        </CardContent>
+      </Card>
     </aside>
   );
 }
