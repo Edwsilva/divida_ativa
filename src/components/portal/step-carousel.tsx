@@ -125,7 +125,7 @@ export function StepCarousel() {
           disabled={!canPrev}
           aria-label="Card anterior"
           className={cn(
-            "flex h-6 w-6 items-center justify-center rounded-full border border-border/80 text-foreground transition-colors",
+            "flex h-6 w-6 items-center justify-center rounded-full border border-border/30 text-foreground transition-colors",
             canPrev ? "hover:bg-muted" : "cursor-not-allowed opacity-30",
           )}
         >
@@ -137,7 +137,7 @@ export function StepCarousel() {
           disabled={!canNext}
           aria-label="Próximo card"
           className={cn(
-            "flex h-6 w-6 items-center justify-center rounded-full border border-border/80 text-foreground transition-colors",
+            "flex h-6 w-6 items-center justify-center rounded-full border border-border/30 text-foreground transition-colors",
             canNext ? "hover:bg-muted" : "cursor-not-allowed opacity-30",
           )}
         >

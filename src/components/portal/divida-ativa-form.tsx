@@ -34,12 +34,37 @@ interface Opcao {
 }
 
 const OPCOES: Opcao[] = [
-  { value: "consultarAvulsaDam", label: "Emitir guia à vista ou liquidar débitos", icon: FileCheck },
-  { value: "consultarRegularizacaoDam", label: "Emitir guias — parcela em atraso (regularização)", icon: FileClock },
-  { value: "consultar2aViaGuiaDam", label: "Emitir segunda via de guia de parcelamento", icon: FileStack },
-  { value: "consultarAdiantamentoDam", label: "Emitir adiantamento de cotas de parcelamento", icon: CalendarClock },
-  { value: "consultarParcelamentoDam", label: "Parcelar débitos", icon: Layers, hasDocButton: true },
-  { value: "consultarRequerimentosParcelamentoDam", label: "Acompanhar requerimento de parcelamento", icon: ClipboardList },
+  {
+    value: "consultarAvulsaDam",
+    label: "Emitir guia à vista ou liquidar débitos",
+    icon: FileCheck,
+  },
+  {
+    value: "consultarRegularizacaoDam",
+    label: "Emitir guias — parcela em atraso (regularização)",
+    icon: FileClock,
+  },
+  {
+    value: "consultar2aViaGuiaDam",
+    label: "Emitir segunda via de guia de parcelamento",
+    icon: FileStack,
+  },
+  {
+    value: "consultarAdiantamentoDam",
+    label: "Emitir adiantamento de cotas de parcelamento",
+    icon: CalendarClock,
+  },
+  {
+    value: "consultarParcelamentoDam",
+    label: "Parcelar débitos",
+    icon: Layers,
+    hasDocButton: true,
+  },
+  {
+    value: "consultarRequerimentosParcelamentoDam",
+    label: "Acompanhar requerimento de parcelamento",
+    icon: ClipboardList,
+  },
 ];
 
 export function DividaAtivaForm() {
@@ -62,8 +87,8 @@ export function DividaAtivaForm() {
               className={cn(
                 "flex cursor-pointer flex-col gap-3 rounded-xl border p-4 transition-all duration-150",
                 opcao === op.value
-                  ? "border-sky-500/60 bg-sky-500/5 shadow-sm dark:border-sky-400/50 dark:bg-sky-500/10"
-                  : "border-border/60 bg-card hover:border-border hover:bg-muted/40",
+                  ? "border-sky-500/60 bg-sky-500/8 shadow-sm dark:border-sky-400/50 dark:bg-sky-500/15"
+                  : "border-sky-500/30 bg-sky-500/5 hover:border-sky-500/50 hover:bg-sky-500/8 dark:border-sky-400/20 dark:bg-sky-500/5",
               )}
             >
               <input
@@ -106,7 +131,7 @@ export function DividaAtivaForm() {
 
         <Button
           type="submit"
-          className="bg-sky-500 hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-700"
+          className="bg-sky-500 hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-700  text-white"
         >
           Confirmar
           <ArrowRight className="ml-2 h-4 w-4" />

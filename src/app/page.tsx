@@ -12,7 +12,7 @@ export default function Home() {
     <Container className="space-y-8 py-6">
       {/* Hero */}
       <section>
-        <div className="overflow-hidden rounded-2xl border border-sky-500/15 bg-gradient-to-br from-sky-500/10 via-background to-emerald-500/10 p-8 md:p-10 dark:border-sky-500/25 dark:from-sky-500/20 dark:to-emerald-500/15">
+        <div className="overflow-hidden rounded-2xl border border-sky-500/10 bg-gradient-to-br from-sky-500/10 via-background to-emerald-500/10 p-8 md:p-10 dark:border-sky-500/25 dark:from-sky-500/20 dark:to-emerald-500/15">
           <span className="inline-flex items-center rounded-full bg-sky-500/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-sky-600 dark:border dark:border-sky-500/40 dark:text-sky-400">
             Procuradoria Geral do Município — PGM
           </span>
@@ -38,7 +38,7 @@ export default function Home() {
         <StepCarousel />
 
         {/* Serviços abaixo dos slides */}
-        <div className="space-y-3 rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
+        <div className="space-y-3 rounded-2xl border border-border/25 bg-card p-6 shadow-sm">
           <div>
             <h3 className="text-base font-semibold text-foreground">Serviços disponíveis</h3>
             <p className="mt-0.5 text-sm text-muted-foreground">
