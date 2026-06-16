@@ -14,6 +14,7 @@ export function SidebarImoveis() {
 
   function handleSalvar(e: React.FormEvent) {
     e.preventDefault();
+    console.log("Salvar imóvel com inscrição:", inscricao);
     if (!inscricao.trim()) {
       toast.error("Informe a Inscrição Imobiliária.");
       return;
@@ -56,7 +57,9 @@ export function SidebarImoveis() {
                 inputMode="numeric"
                 maxLength={8}
                 value={inscricao}
-                onChange={(e) => setInscricao(e.target.value.replace(/\D/g, "").slice(0, 8))}
+                onChange={(e) =>
+                  setInscricao(e.target.value.replace(/\D/g, "").slice(0, 8))
+                }
                 placeholder="Inscrição imobiliária"
                 aria-label="Inscrição imobiliária do imóvel"
                 className={cn(
