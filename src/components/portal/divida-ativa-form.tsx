@@ -85,7 +85,7 @@ export function DividaAtivaForm() {
               key={op.value}
               htmlFor={op.value}
               className={cn(
-                "flex cursor-pointer flex-col gap-3 rounded-xl border p-4 transition-all duration-150",
+                "flex cursor-pointer flex-col gap-3 rounded-xl border p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-md",
                 opcao === op.value
                   ? "border-sky-500/60 bg-sky-500/8 shadow-sm dark:border-sky-400/50 dark:bg-sky-500/15"
                   : "border-sky-500/30 bg-sky-500/5 hover:border-sky-500/50 hover:bg-sky-500/8 dark:border-sky-400/20 dark:bg-sky-500/5",
