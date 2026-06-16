@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export function DamInfoCard() {
   return (
-    <Card className="border border-border/60 shadow-sm dark:border-border/40">
+    <Card className="border border-border/60 shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_22px_4px_rgba(14,165,233,0.3)] dark:border-border/40">
       <CardContent className="flex flex-col items-center gap-4 py-6 text-center">
         <Image
           src="/municipio.png"

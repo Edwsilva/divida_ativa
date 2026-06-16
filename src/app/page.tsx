@@ -66,13 +66,9 @@ export default function Home() {
 
       {/* Sidebar + DamInfoCard */}
       <section className="pb-4">
-        <div className="flex flex-col gap-6 sm:flex-row">
-          <div className="w-full sm:w-72">
-            <SidebarImoveis />
-          </div>
-          <div className="flex-1">
-            <DamInfoCard />
-          </div>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <SidebarImoveis />
+          <DamInfoCard />
         </div>
       </section>
     </Container>

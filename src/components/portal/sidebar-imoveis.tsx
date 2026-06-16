@@ -23,9 +23,9 @@ export function SidebarImoveis() {
   }
 
   return (
-    <aside className="space-y-4">
+    <aside className="contents">
       {/* Card Meus Imóveis */}
-      <Card className="border-border/70 shadow-sm">
+      <Card className="border-border/70 shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_22px_4px_rgba(14,165,233,0.3)]">
         <CardHeader className="border-b border-border/50 pb-3">
           <CardTitle className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-foreground">
             <Building2 className="h-4 w-4 shrink-0 text-sky-500" />
@@ -73,7 +73,7 @@ export function SidebarImoveis() {
       </Card>
 
       {/* Card Nota Carioca */}
-      <Card className="overflow-hidden border-border/70 shadow-sm">
+      <Card className="overflow-hidden border-border/70 shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_22px_4px_rgba(14,165,233,0.3)]">
         <div className="bg-muted/30">
           <Image
             src="/nota-carioca.jpg"
