@@ -1,18 +1,31 @@
 "use client";
 
 import { MoonStar, SunMedium } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 
+const ANIMATION_DURATION = 500;
+
 export function ThemeToggle() {
-  const [mounted, setMounted] = useState(false);
-  const [isDark, setIsDark] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
+
+  const [mounted, setMounted] = useState(false);
+
+  // Estado que controla APENAS a posição do thumb
+  const [thumbDark, setThumbDark] = useState(false);
+
+  const isAnimating = useRef(false);
 
   useEffect(() => {
     setMounted(true);
-    setIsDark(resolvedTheme === "dark");
-  }, [resolvedTheme]);
+  }, []);
+
+  // Sincroniza o thumb quando o tema mudar externamente
+  useEffect(() => {
+    if (!mounted || isAnimating.current) return;
+
+    setThumbDark(resolvedTheme === "dark");
+  }, [resolvedTheme, mounted]);
 
   if (!mounted) {
     return (
@@ -21,50 +34,58 @@ export function ThemeToggle() {
   }
 
   function handleToggle() {
-    const next = isDark ? "light" : "dark";
-    setIsDark(!isDark);
+    if (isAnimating.current) return;
 
-    if (!document.startViewTransition) {
-      setTheme(next);
-      return;
-    }
-    document.startViewTransition(() => {
-      setTheme(next);
-    });
+    isAnimating.current = true;
+
+    const nextDark = !thumbDark;
+
+    // Anima o thumb imediatamente
+    setThumbDark(nextDark);
+
+    // Só troca o tema quando a animação terminar
+    window.setTimeout(() => {
+      const nextTheme = nextDark ? "dark" : "light";
+
+      if (!document.startViewTransition) {
+        setTheme(nextTheme);
+      } else {
+        document.startViewTransition(() => {
+          setTheme(nextTheme);
+        });
+      }
+
+      isAnimating.current = false;
+    }, ANIMATION_DURATION);
   }
 
   return (
     <button
       onClick={handleToggle}
-      aria-label={isDark ? "Ativar tema claro" : "Ativar tema escuro"}
-      aria-pressed={isDark}
-      className="relative flex h-8 w-14 cursor-pointer items-center rounded-full border border-slate-200 bg-white px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-800"
+      aria-label={thumbDark ? "Ativar tema claro" : "Ativar tema escuro"}
+      aria-pressed={thumbDark}
+      className="relative flex h-8 w-14 items-center rounded-full border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800"
     >
-      {/* Ícones fixos */}
-      <span className="pointer-events-none relative z-0 flex w-full items-center justify-between px-0.5">
-        <SunMedium
-          className="h-3.5 w-3.5 transition-colors duration-300"
-          style={{ color: isDark ? "#fff" : "#fff" }}
-        />
+      {/* Ícones */}
+      <span className="pointer-events-none absolute inset-0 flex items-center justify-between px-[6px]">
+        <SunMedium className="h-3.5 w-3.5 text-white" />
+
         <MoonStar
-          className="h-3.5 w-3.5 transition-colors duration-300"
+          className="h-3.5 w-3.5 transition-all duration-300"
           style={{
-            color: isDark ? "#fff" : "#0f172a",
-            fill: isDark ? "transparent" : "#0f172a",
+            color: thumbDark ? "#fff" : "#0f172a",
+            fill: thumbDark ? "transparent" : "#0f172a",
           }}
         />
       </span>
 
-      {/* Thumb deslizante */}
+      {/* Thumb */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute top-0.7 h-5 w-5 rounded-full bg-sky-500 shadow-[0_2px_8px_rgba(14,165,233,0.5)]"
+        className="absolute top-1 h-6 w-6 rounded-full bg-sky-500 shadow-[0_2px_8px_rgba(14,165,233,0.5)] transition-[left] duration-500"
         style={{
-          left: "2px",
-          transform: isDark
-            ? "translateX(calc(3.5rem - 1.835rem))"
-            : "translateX(0px)",
-          transition: "transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+          left: thumbDark ? "calc(100% - 28px)" : "4px",
+          transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
       />
     </button>

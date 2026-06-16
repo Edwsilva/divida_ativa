@@ -1,3 +1,5 @@
+declare module "*.css";
+
 interface DecodedToken {
   sub: string;
   preferred_username?: string;
