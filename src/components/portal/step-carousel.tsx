@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -10,6 +10,7 @@ import {
   CreditCard,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface SlideItem {
   title: string;
@@ -46,48 +47,51 @@ const SLIDES: SlideItem[] = [
 ];
 
 export function StepCarousel() {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [current, setCurrent] = useState(0);
 
-  function scroll(dir: "left" | "right") {
-    const el = scrollRef.current;
-    if (!el) return;
-    const card = el.querySelector("[data-card]") as HTMLElement | null;
-    const w = (card?.offsetWidth ?? 320) + 16;
-    el.scrollBy({ left: dir === "right" ? w : -w, behavior: "smooth" });
-  }
+  const canPrev = current > 0;
+  const canNext = current < SLIDES.length - 1;
 
   return (
-    <div className="relative px-4">
-      {/* Seta esquerda */}
-      <button
-        type="button"
-        onClick={() => scroll("left")}
-        aria-label="Card anterior"
-        className="absolute left-0 top-1/2 z-10 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
-      >
-        <ChevronLeft className="h-5 w-5" />
-      </button>
+    <div className="space-y-3">
+      {/* Slider */}
+      <div className="relative h-36 overflow-hidden">
+        {SLIDES.map((slide, index) => {
+          const offset = index - current;
 
-      {/* Container com clip */}
-      <div className="overflow-hidden">
-        <div
-          ref={scrollRef}
-          className="flex gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          style={{ scrollSnapType: "x mandatory" }}
-        >
-          {SLIDES.map((slide, index) => (
+          // Posições baseadas no offset
+          const left =
+            offset === 0
+              ? "0%"
+              : offset === 1
+                ? "52%"
+                : offset < 0
+                  ? "-54%"
+                  : "106%";
+
+          const top = offset === 0 ? "0px" : "8px";
+          const width = "48%";
+          const height = offset === 0 ? "100%" : "calc(100% - 8px)";
+          const zIndex = offset === 0 ? 20 : offset === 1 ? 10 : 0;
+          const opacity = Math.abs(offset) <= 1 ? 1 : 0;
+
+          return (
             <div
               key={slide.title}
-              data-card
-              className="relative flex h-32 min-w-full flex-shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-indigo-600 via-blue-600 to-blue-500 p-4 sm:min-w-[calc(50%-6px)]"
-              style={{ scrollSnapAlign: "start" }}
+              className="absolute overflow-hidden rounded-xl bg-gradient-to-br from-indigo-600 via-blue-600 to-blue-500 p-4"
+              style={{
+                left,
+                top,
+                width,
+                height,
+                zIndex,
+                opacity,
+                transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
             >
-              {/* Texto */}
-              <div className="relative z-10 flex flex-col justify-between">
-                <div className="space-y-0.5">
-                  {/* <p className="text-[9px] font-bold uppercase tracking-widest text-white/50">
-                    Passo {index + 1}
-                  </p> */}
+              {/* Conteúdo */}
+              <div className="relative z-10 flex h-full flex-col justify-between">
+                <div className="space-y-1">
                   <h3 className="text-sm font-bold leading-snug text-white">
                     {slide.title}
                   </h3>
@@ -109,19 +113,37 @@ export function StepCarousel() {
                 aria-hidden="true"
               />
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
-      {/* Seta direita */}
-      <button
-        type="button"
-        onClick={() => scroll("right")}
-        aria-label="Próximo card"
-        className="absolute right-0 top-1/2 z-10 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
-      >
-        <ChevronRight className="h-5 w-5" />
-      </button>
+      {/* Setas de navegação */}
+      <div className="flex items-center gap-1.5">
+        <button
+          type="button"
+          onClick={() => canPrev && setCurrent((i) => i - 1)}
+          disabled={!canPrev}
+          aria-label="Card anterior"
+          className={cn(
+            "flex h-6 w-6 items-center justify-center rounded-full border border-border/80 text-foreground transition-colors",
+            canPrev ? "hover:bg-muted" : "cursor-not-allowed opacity-30",
+          )}
+        >
+          <ChevronLeft className="h-3.5 w-3.5" />
+        </button>
+        <button
+          type="button"
+          onClick={() => canNext && setCurrent((i) => i + 1)}
+          disabled={!canNext}
+          aria-label="Próximo card"
+          className={cn(
+            "flex h-6 w-6 items-center justify-center rounded-full border border-border/80 text-foreground transition-colors",
+            canNext ? "hover:bg-muted" : "cursor-not-allowed opacity-30",
+          )}
+        >
+          <ChevronRight className="h-3.5 w-3.5" />
+        </button>
+      </div>
     </div>
   );
 }
