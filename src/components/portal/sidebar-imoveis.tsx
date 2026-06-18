@@ -1,26 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "sonner";
 import Image from "next/image";
 import { Building2, Plus } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useCriarImovel } from "@/features/imoveis/hooks/use-criar-imovel";
 
 export function SidebarImoveis() {
   const [inscricao, setInscricao] = useState("");
+  const { mutate: criarImovel, isPending } = useCriarImovel();
 
   function handleSalvar(e: React.FormEvent) {
     e.preventDefault();
-    console.log("Salvar imóvel com inscrição:", inscricao);
+
     if (!inscricao.trim()) {
       toast.error("Informe a Inscrição Imobiliária.");
       return;
     }
-    toast.success("Imóvel incluído com sucesso!");
-    setInscricao("");
+
+    criarImovel(
+      { numInscricao: inscricao },
+      { onSuccess: () => setInscricao("") },
+    );
   }
 
   return (
@@ -62,21 +67,23 @@ export function SidebarImoveis() {
                 }
                 placeholder="Inscrição imobiliária"
                 aria-label="Inscrição imobiliária do imóvel"
+                disabled={isPending}
                 className={cn(
                   "w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground",
                   "placeholder:text-muted-foreground",
                   "focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:ring-offset-1",
-                  "transition-colors",
+                  "transition-colors disabled:cursor-not-allowed disabled:opacity-50",
                 )}
               />
             </div>
             <Button
               type="submit"
               size="sm"
-              className="w-full bg-primary hover:bg-primary/90 text-white"
+              disabled={isPending}
+              className="w-full bg-primary text-white hover:bg-primary/90"
             >
               <Plus className="mr-1.5 h-3.5 w-3.5" />
-              Salvar imóvel
+              {isPending ? "Salvando..." : "Salvar imóvel"}
             </Button>
           </form>
         </CardContent>
@@ -101,7 +108,7 @@ export function SidebarImoveis() {
           <Button
             type="button"
             size="sm"
-            className="w-full bg-primary hover:bg-primary/90 text-white"
+            className="w-full bg-primary text-white hover:bg-primary/90"
             onClick={() => toast.info("Redirecionando para o Nota Carioca...")}
           >
             Ver notas recebidas no mês

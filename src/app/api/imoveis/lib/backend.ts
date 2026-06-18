@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "@/lib/auth";
-import { logServerError } from "@/lib/auth";
+import { getServerSession, logServerError } from "@/lib/auth";
 import { parseBackendErrorResponse } from "@/lib/api/parse-backend-error-response";
 import { parseBackendJsonPayload } from "@/lib/api/parse-backend-json-payload";
 import type { ApiErrorResponse, ApiSuccessResponse } from "@/types";
@@ -8,10 +7,9 @@ import type { ApiErrorResponse, ApiSuccessResponse } from "@/types";
 const DEFAULT_API_URL = "http://10.5.224.248:8080";
 
 function getApiBaseUrl() {
-  return (process.env.API_DIVIDA_ATIVA_URL || DEFAULT_API_URL).replace(
-    /\/$/,
-    "",
-  );
+  const envUrl = process.env.API_IMOVEIS_URL || DEFAULT_API_URL;
+  console.log("Usando API de imóveis em:", envUrl);
+  return envUrl.replace(/\/$/, "");
 }
 
 async function getAuthorizationHeader() {
@@ -25,12 +23,12 @@ async function getAuthorizationHeader() {
 }
 
 /**
- * Proxy autenticado para o backend de dívida ativa.
+ * Proxy autenticado para o backend de imóveis.
  *
  * Injeta automaticamente o Bearer token da sessão atual e normaliza
  * as respostas no padrão `ApiResponse<T>`.
  */
-export async function requestDividaAtivaBackend<T>(
+export async function requestImoveisBackend<T>(
   path: string,
   init: RequestInit = {},
 ) {
@@ -81,11 +79,11 @@ export async function requestDividaAtivaBackend<T>(
       data,
     });
   } catch (error) {
-    logServerError("Erro ao chamar API de dívida ativa", error);
+    logServerError("Erro ao chamar API de imóveis", error);
     return NextResponse.json<ApiErrorResponse>(
       {
         success: false,
-        error: "Serviço de dívida ativa indisponível no momento.",
+        error: "Serviço de imóveis indisponível no momento.",
         statusCode: 503,
       },
       { status: 503 },

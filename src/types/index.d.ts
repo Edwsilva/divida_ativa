@@ -34,6 +34,20 @@ interface SessionPayload {
   refreshExp?: number;
 }
 
+/** Tipo de domínio: imóvel cadastrado pelo usuário. */
+interface Imovel {
+  id: number;
+  cpf: string;
+  dataInclusao?: string | null;
+  endereco: string;
+  numInscricao: string;
+}
+
+/** Payload para criação de imóvel. */
+interface CriarImovelDto {
+  numInscricao: string;
+}
+
 /** Tipo de domínio: dívida ativa. Adapte os campos conforme o contrato do backend. */
 interface DividaAtiva {
   id: string;
@@ -78,5 +92,7 @@ export type {
   ApiResponse,
   BackendErrorBody,
   KeycloakTokenResponse,
+  Imovel,
+  CriarImovelDto,
   DividaAtiva,
 };
