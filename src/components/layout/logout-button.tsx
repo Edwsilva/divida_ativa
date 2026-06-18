@@ -1,8 +1,8 @@
 "use client";
 import { LogOut } from "lucide-react";
 import { useState } from "react";
-
-import { Button } from "@/components/ui/button";
+import { userInfo } from "os";
+import { cn } from "@/lib/utils";
 
 type LogoutButtonProps = {
   givenName?: string;
@@ -50,28 +50,34 @@ export default function LogoutButton({ givenName }: LogoutButtonProps) {
     }
   };
 
+  if (isLoggingOut) {
+    return <span className="font-semibold">Carregando...</span>;
+  }
+
+  if (!isLogged) {
+    return null;
+  }
+
   return (
-    <Button
-      type="button"
-      variant="default"
-      className="min-w-[210px] rounded-full border-slate-300 bg-white px-4 py-2 text-slate-700 shadow-[0_1px_2px_rgba(15,23,42,0.06)] transition hover:bg-slate-50 hover:text-slate-900 dark:border-white/15 dark:bg-white/5 dark:text-white dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)] dark:hover:bg-white/10"
-      onClick={handleLogout}
-      disabled={isLoggingOut}
-    >
-      <span className="flex items-center gap-2 text-sm font-semibold leading-none text-slate-700 dark:text-white">
-        <span className="truncate">
-          {isLoggingOut
-            ? "Carregando..."
-            : isLogged
-              ? `Olá, ${givenName}`
-              : "Sair"}
-        </span>
-        {!isLoggingOut && (
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-cyan-900 bg-white  text-cyan-900 shadow-sm dark:border-white/20 dark:bg-white/5 dark:text-white">
-            <LogOut className="h-4 w-4" />
-          </span>
+    <div className="flex items-center gap-1.5">
+      {isLoggingOut ? (
+        <span className="font-semibold">Saindo...</span>
+      ) : (
+        <span className="font-semibold">Olá, {givenName}</span>
+      )}
+      <button
+        type="button"
+        className={cn(
+          "flex cursor-pointer items-center justify-start gap-1.5 border-0 bg-transparent text-base text-foreground transition-colors",
+          "hover:text-primary",
+          "disabled:cursor-not-allowed disabled:text-muted-foreground disabled:opacity-50"
         )}
-      </span>
-    </Button>
+        onClick={handleLogout}
+        disabled={isLoggingOut}
+        aria-label="Sair"
+      >
+        <LogOut size={25} aria-hidden="true" />
+      </button>
+    </div>
   );
 }

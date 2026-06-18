@@ -82,7 +82,7 @@ export function ThemeToggle() {
       {/* Thumb */}
       <span
         aria-hidden="true"
-        className="absolute top-1 h-6 w-6 rounded-full bg-sky-500 shadow-[0_2px_8px_rgba(14,165,233,0.5)] transition-[left] duration-500"
+        className="absolute top-1 h-6 w-6 rounded-full bg-primary shadow-[0_2px_8px_rgba(14,165,233,0.5)] transition-[left] duration-500"
         style={{
           left: thumbDark ? "calc(100% - 28px)" : "4px",
           transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",

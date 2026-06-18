@@ -12,17 +12,19 @@ export default function Home() {
     <Container className="space-y-8 py-6">
       {/* Hero */}
       <section>
-        <div className="overflow-hidden rounded-2xl border border-sky-500/10 bg-gradient-to-br from-sky-500/10 via-background to-emerald-500/10 p-8 md:p-10 dark:border-sky-500/25 dark:from-sky-500/20 dark:to-emerald-500/15">
-          <span className="inline-flex items-center rounded-full bg-sky-500/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-sky-600 dark:border dark:border-sky-500/40 dark:text-sky-400">
-            Procuradoria Geral do Município — PGM
-          </span>
-          <h1 className="font-heading mt-4 text-2xl font-bold uppercase tracking-tight text-foreground sm:text-3xl">
-            Dívida Ativa Municipal
-          </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground/70 md:text-base">
-            Consulte e regularize seus débitos inscritos em dívida ativa — IPTU, taxas municipais, ISS, ITBI e multas —
-            de forma rápida e segura diretamente pelo portal.
-          </p>
+        <div className="overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 to-secondary/10 p-8 md:p-12 dark:border-primary/30 dark:from-primary/30 dark:to-secondary/20">
+          <div className="max-w-2xl">
+            <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-primary dark:border dark:border-primary">
+              Procuradoria Geral do Município — PGM
+            </span>
+            <h1 className="mt-4 text-3xl font-semibold text-foreground md:text-4xl">
+              Dívida Ativa Municipal
+            </h1>
+            <p className="mt-3 text-muted-foreground md:text-lg">
+              Consulte e regularize seus débitos inscritos em dívida ativa — IPTU, taxas municipais, ISS, ITBI e multas —
+              de forma rápida e segura diretamente pelo portal.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -54,7 +56,7 @@ export default function Home() {
               href="https://daminternet.rio.rj.gov.br/FAQ/DividaAtiva"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-semibold text-sky-600 underline underline-offset-2 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300"
+              className="inline-flex items-center gap-1 font-semibold text-primary underline underline-offset-2 hover:text-primary/90"
             >
               aqui
               <ExternalLink className="h-3 w-3" />
@@ -71,6 +73,6 @@ export default function Home() {
           <DamInfoCard />
         </div>
       </section>
-    </Container>
+    </Container >
   );
 }

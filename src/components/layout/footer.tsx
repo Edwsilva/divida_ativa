@@ -1,29 +1,62 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import Container from "./container";
 
-const Footer = () => {
-  return (
-    <footer className="mt-auto border-t border-slate-200/80 bg-[#004a80] px-4 py-6 text-center text-sm text-white shadow-[0_-1px_0_rgba(148,163,184,0.35)] dark:border-zinc-700/80 dark:bg-card/80 dark:text-muted-foreground dark:shadow-[0_-2px_0_rgba(255,255,255,0.08)]">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 text-center">
-        <Link
-          href="/"
-          className="flex shrink-0 items-center justify-center rounded-2xl bg-white/10 p-2 shadow-sm ring-1 ring-white/15 backdrop-blur-sm dark:bg-background/80 dark:ring-border/60"
-        >
-          <Image
-            className="h-auto w-28"
-            src="/logoPrefeitura.png"
-            width={160}
-            height={110}
-            alt="Logo"
-          />
-        </Link>
-        <p className="max-w-3xl text-balance leading-6 text-white/90 dark:text-muted-foreground">
-          Prefeitura da Cidade do Rio de Janeiro Sede: Rua Afonso Cavalcanti,
-          455 - Cidade Nova - 20211-110
-        </p>
-      </div>
-    </footer>
-  );
+export type FooterLinkItem = {
+  label: string;
+  href: string;
 };
 
-export default Footer;
+const DEFAULT_LINKS: FooterLinkItem[] = [
+  { label: "Prefeitura do Rio", href: "https://www.rio.rj.gov.br/" },
+  { label: "Carioca Digital", href: "https://home.carioca.rio" },
+];
+
+export type FooterProps = {
+  links?: FooterLinkItem[];
+};
+
+export default function Footer({ links = DEFAULT_LINKS }: FooterProps) {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="mt-auto bg-[#013a61] text-white">
+      <Container>
+        <div className="flex flex-col gap-8 py-10">
+          <div className="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
+            <Link href="/" className="inline-block leading-none">
+              <Image
+                src="/logoPrefeitura.png"
+                width={100}
+                height={60}
+                alt="Prefeitura da Cidade do Rio de Janeiro"
+                className="h-auto w-[100px]"
+              />
+            </Link>
+
+            <nav aria-label="Links institucionais">
+              <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+                {links.map((item) => (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium text-white/70 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#013a61]"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          <div className="border-t border-white/10 pt-6 text-center text-sm text-white/60 md:text-left">
+            © {year} Prefeitura da Cidade do Rio de Janeiro. Todos os direitos reservados.
+          </div>
+        </div>
+      </Container>
+    </footer>
+  );
+}

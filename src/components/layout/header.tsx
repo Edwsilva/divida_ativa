@@ -22,8 +22,8 @@ const Header = async () => {
               aspectRatio: "240 / 96",
               backgroundImage:
                 "linear-gradient(90deg, #18a8ec 0%, #10b7d6 38%, #10c18f 100%)",
-              WebkitMaskImage: "url(/logocariocadigital.png)",
-              maskImage: "url(/logocariocadigital.png)",
+              WebkitMaskImage: "url(/logoNovo.png)",
+              maskImage: "url(/logoNovo.png)",
               WebkitMaskRepeat: "no-repeat",
               maskRepeat: "no-repeat",
               WebkitMaskPosition: "center",

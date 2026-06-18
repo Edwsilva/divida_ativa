@@ -104,7 +104,7 @@ export function DividaAtivaForm() {
               <op.icon
                 className={cn(
                   "h-5 w-5 transition-colors",
-                  opcao === op.value ? "text-sky-500" : "text-muted-foreground",
+                  opcao === op.value ? "text-primary" : "text-muted-foreground",
                 )}
                 aria-hidden="true"
               />
@@ -118,7 +118,7 @@ export function DividaAtivaForm() {
                     e.preventDefault();
                     setModalAberto(true);
                   }}
-                  className="inline-flex w-fit items-center gap-1.5 rounded-md bg-sky-500 px-2.5 py-1 text-[11px] font-semibold text-white transition-colors hover:bg-sky-600"
+                  className="inline-flex w-fit items-center gap-1.5 rounded-md bg-primary px-2.5 py-1 text-[11px] font-semibold text-white transition-colors hover:bg-primary/90"
                   aria-label="Ver documentos necessários para parcelamento"
                 >
                   <FileText className="h-3 w-3 shrink-0" />
@@ -131,7 +131,7 @@ export function DividaAtivaForm() {
 
         <Button
           type="submit"
-          className="bg-sky-500 hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-700  text-white"
+          className="bg-primary hover:bg-primary/90 text-white"
         >
           Confirmar
           <ArrowRight className="ml-2 h-4 w-4" />

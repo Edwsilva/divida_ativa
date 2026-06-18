@@ -73,7 +73,7 @@ export function SidebarImoveis() {
             <Button
               type="submit"
               size="sm"
-              className="w-full bg-sky-500 hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-700  text-white"
+              className="w-full bg-primary hover:bg-primary/90 text-white"
             >
               <Plus className="mr-1.5 h-3.5 w-3.5" />
               Salvar imóvel
@@ -101,7 +101,7 @@ export function SidebarImoveis() {
           <Button
             type="button"
             size="sm"
-            className="w-full bg-sky-500 hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-700 text-white"
+            className="w-full bg-primary hover:bg-primary/90 text-white"
             onClick={() => toast.info("Redirecionando para o Nota Carioca...")}
           >
             Ver notas recebidas no mês

@@ -1,21 +1,15 @@
 import type { Metadata } from "next";
-import { Manrope, Space_Grotesk, Geist } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
-
-const bodyFont = Manrope({
+const roboto = Roboto({
   subsets: ["latin"],
-  variable: "--font-body",
-});
-
-const headingFont = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-heading",
+  weight: ["100", "300", "400", "500", "700", "900"],
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -32,11 +26,9 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       suppressHydrationWarning
-      className={cn("font-sans", geist.variable)}
+      className={cn("font-sans", roboto.variable)}
     >
-      <body
-        className={`${bodyFont.variable} ${headingFont.variable} bg-background text-foreground antialiased`}
-      >
+      <body className="bg-background text-foreground antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

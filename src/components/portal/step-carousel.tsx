@@ -78,7 +78,7 @@ export function StepCarousel() {
           return (
             <div
               key={slide.title}
-              className="absolute overflow-hidden rounded-xl bg-gradient-to-br from-indigo-600 via-blue-600 to-blue-500 p-4"
+              className="absolute overflow-hidden rounded-xl p-4 bg-primary/90"
               style={{
                 left,
                 top,
@@ -92,16 +92,16 @@ export function StepCarousel() {
               {/* Conteúdo */}
               <div className="relative z-10 flex h-full flex-col justify-between">
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold leading-snug text-white">
+                  <h3 className="text-base font-bold leading-snug text-white">
                     {slide.title}
                   </h3>
-                  <p className="text-xs leading-relaxed text-white/70">
+                  <p className="text-sm leading-relaxed text-white/70">
                     {slide.description}
                   </p>
                 </div>
                 <button
                   type="button"
-                  className="mt-2 w-fit rounded-md border border-white/30 bg-white/15 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/25"
+                  className="mt-2 w-fit rounded-md border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/25"
                 >
                   {slide.actionLabel}
                 </button>
