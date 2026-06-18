@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import {
+  ExternalLink,
+  House,
+  SearchCheck,
+  FileText,
+  CreditCard,
+} from "lucide-react";
 
 import Container from "@/components/layout/container";
 import { SidebarImoveis } from "@/components/portal/sidebar-imoveis";
@@ -21,8 +27,9 @@ export default function Home() {
               Dívida Ativa Municipal
             </h1>
             <p className="mt-3 text-muted-foreground md:text-lg">
-              Consulte e regularize seus débitos inscritos em dívida ativa — IPTU, taxas municipais, ISS, ITBI e multas —
-              de forma rápida e segura diretamente pelo portal.
+              Consulte e regularize seus débitos inscritos em dívida ativa —
+              IPTU, taxas municipais, ISS, ITBI e multas — de forma rápida e
+              segura diretamente pelo portal.
             </p>
           </div>
         </div>
@@ -31,7 +38,9 @@ export default function Home() {
       {/* Como funciona + Serviços */}
       <section className="space-y-5">
         <div>
-          <h2 className="text-lg font-semibold text-foreground sm:text-xl">Como funciona</h2>
+          <h2 className="text-lg font-semibold text-foreground sm:text-xl">
+            Como funciona
+          </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Em poucos passos você consulta e regulariza seus débitos.
           </p>
@@ -42,9 +51,12 @@ export default function Home() {
         {/* Serviços abaixo dos slides */}
         <div className="space-y-3 rounded-2xl border border-border/25 bg-card p-6 shadow-sm">
           <div>
-            <h3 className="text-base font-semibold text-foreground">Serviços disponíveis</h3>
+            <h3 className="text-base font-semibold text-foreground">
+              Serviços disponíveis
+            </h3>
             <p className="mt-0.5 text-sm text-muted-foreground">
-              Selecione o serviço desejado e clique em <strong className="text-foreground">Confirmar</strong>.
+              Selecione o serviço desejado e clique em{" "}
+              <strong className="text-foreground">Confirmar</strong>.
             </p>
           </div>
 
@@ -73,6 +85,6 @@ export default function Home() {
           <DamInfoCard />
         </div>
       </section>
-    </Container >
+    </Container>
   );
 }

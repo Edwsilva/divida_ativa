@@ -1,8 +1,8 @@
 import Link from "next/link";
-
-import LogoutButton from "./logout-button";
 import { getServerSession } from "@/lib/auth";
 import { decodeJwt } from "@/lib/api";
+
+import LogoutButton from "./logout-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const Header = async () => {

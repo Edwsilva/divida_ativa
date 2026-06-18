@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import { QueryProvider } from "@/components/providers/query-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 const roboto = Roboto({
@@ -35,12 +37,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen flex-col bg-background">
-            <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(14,165,233,0.10),_transparent_34%),radial-gradient(circle_at_right,_rgba(16,185,129,0.10),_transparent_26%)]" />
-            <Header />
-            <main className="flex-1 pt-32 sm:pt-36">{children}</main>
-            <Footer />
-          </div>
+          <QueryProvider>
+            <div className="flex min-h-screen flex-col bg-background">
+              <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(14,165,233,0.10),_transparent_34%),radial-gradient(circle_at_right,_rgba(16,185,129,0.10),_transparent_26%)]" />
+              <Header />
+              <main className="flex-1 pt-32 sm:pt-36">{children}</main>
+              <Footer />
+            </div>
+            <Toaster richColors />
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

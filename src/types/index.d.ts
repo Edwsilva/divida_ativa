@@ -34,6 +34,17 @@ interface SessionPayload {
   refreshExp?: number;
 }
 
+/** Tipo de domínio: dívida ativa. Adapte os campos conforme o contrato do backend. */
+interface DividaAtiva {
+  id: string;
+  cpf: string;
+  nomeDevedor: string;
+  valorTotal: number;
+  dataInscricao: string;
+  situacao: string;
+  [key: string]: unknown;
+}
+
 /** Resposta de sucesso padronizada das rotas de API (Next). */
 type ApiSuccessResponse<T> = {
   success: true;
@@ -67,4 +78,5 @@ export type {
   ApiResponse,
   BackendErrorBody,
   KeycloakTokenResponse,
+  DividaAtiva,
 };
