@@ -7,15 +7,17 @@ import { toast } from "sonner";
 import { PatternFormat } from "react-number-format";
 
 import { Input } from "@/components/ui/input";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useCriarImovel } from "@/features/imoveis/hooks/use-criar-imovel";
+import { useImoveis } from "@/features/imoveis/hooks/use-imoveis";
+import { ImovelItem } from "@/components/portal/imovel-item";
 
 export function SidebarImoveis() {
   const [inscricao, setInscricao] = useState("");
   const { mutate: criarImovel, isPending } = useCriarImovel();
+  const { data: imoveis, isLoading } = useImoveis();
 
   function handleSalvar(e: React.FormEvent) {
     e.preventDefault();
@@ -31,6 +33,8 @@ export function SidebarImoveis() {
     );
   }
 
+  const temImoveis = Array.isArray(imoveis) && imoveis.length > 0;
+
   return (
     <aside className="contents">
       {/* Card Meus Imóveis */}
@@ -43,21 +47,38 @@ export function SidebarImoveis() {
         </CardHeader>
         <CardContent className="space-y-4 pt-4">
           <p className="text-sm text-muted-foreground">
-            Cadastre seu imóvel para consultar 2ª via do IPTU, cotas em atraso e
-            pagamentos efetuados.
-          </p>
-          <p className="rounded-lg bg-muted/60 px-3 py-2 text-xs text-muted-foreground">
-            Nenhum imóvel cadastrado. Informe a inscrição imobiliária abaixo
-            para começar.
+            Cadastre o seu imóvel para parcelar os débitos de IPTU e TCL em até
+            24 vezes.
           </p>
 
+          <p className="text-sm font-semibold text-foreground">
+            Clique no imóvel para visualizar os serviços disponíveis.
+          </p>
+
+          {/* Lista de imóveis */}
+          {isLoading ? (
+            <p className="text-xs text-muted-foreground">Carregando...</p>
+          ) : temImoveis ? (
+            <div className="divide-y divide-border/20">
+              {imoveis.map((imovel) => (
+                <ImovelItem key={imovel.id} imovel={imovel} />
+              ))}
+            </div>
+          ) : (
+            <p className="rounded-lg bg-muted/60 px-3 py-2 text-xs text-muted-foreground">
+              Nenhum imóvel cadastrado. Informe a inscrição imobiliária abaixo
+              para começar.
+            </p>
+          )}
+
+          {/* Formulário de inclusão */}
           <form onSubmit={handleSalvar} className="space-y-3">
             <div className="space-y-1.5">
               <label
                 htmlFor="inscricao-imobiliaria"
                 className="text-xs font-semibold text-foreground"
               >
-                Incluir novo imóvel
+                Incluir novo imóvel:
               </label>
               <PatternFormat
                 customInput={Input}
@@ -70,7 +91,7 @@ export function SidebarImoveis() {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setInscricao(e.target.value.replace(/\D/g, "").slice(0, 12))
                 }
-                placeholder="Inscrição imobiliária"
+                placeholder="Inscrição Imobiliária"
                 aria-label="Inscrição imobiliária do imóvel"
                 disabled={isPending}
                 className={cn(
