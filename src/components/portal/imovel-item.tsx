@@ -9,6 +9,15 @@ interface ImovelItemProps {
   imovel: Imovel;
 }
 
+/**
+ * Aplica a máscara #.###.###-# a uma string de dígitos.
+ * Preenche com zeros à esquerda se necessário para atingir 8 dígitos.
+ */
+function formatarInscricao(valor: string): string {
+  const digits = valor.replace(/\D/g, "").padStart(8, "0").slice(0, 8);
+  return `${digits[0]}.${digits.slice(1, 4)}.${digits.slice(4, 7)}-${digits[7]}`;
+}
+
 export function ImovelItem({ imovel }: ImovelItemProps) {
   const { mutate: excluirImovel, isPending } = useExcluirImovel();
 
@@ -23,7 +32,7 @@ export function ImovelItem({ imovel }: ImovelItemProps) {
           {imovel.endereco}
         </p>
         <p className="mt-0.5 text-xs text-muted-foreground">
-          {imovel.numInscricao}
+          {formatarInscricao(imovel.numInscricao)}
         </p>
       </button>
 

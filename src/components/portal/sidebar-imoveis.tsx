@@ -59,7 +59,7 @@ export function SidebarImoveis() {
           {isLoading ? (
             <p className="text-xs text-muted-foreground">Carregando...</p>
           ) : temImoveis ? (
-            <div className="divide-y divide-border/20">
+            <div className="max-h-36 overflow-y-auto divide-y divide-border/20 pr-1">
               {imoveis.map((imovel) => (
                 <ImovelItem key={imovel.id} imovel={imovel} />
               ))}
