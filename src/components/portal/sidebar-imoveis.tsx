@@ -4,6 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import { Building2, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { PatternFormat } from "react-number-format";
+
+import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,14 +59,16 @@ export function SidebarImoveis() {
               >
                 Incluir novo imóvel
               </label>
-              <input
+              <PatternFormat
+                customInput={Input}
                 id="inscricao-imobiliaria"
+                format="#.###.###-#"
                 type="text"
                 inputMode="numeric"
-                maxLength={8}
+                maxLength={12}
                 value={inscricao}
-                onChange={(e) =>
-                  setInscricao(e.target.value.replace(/\D/g, "").slice(0, 8))
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setInscricao(e.target.value.replace(/\D/g, "").slice(0, 12))
                 }
                 placeholder="Inscrição imobiliária"
                 aria-label="Inscrição imobiliária do imóvel"
